@@ -13,3 +13,21 @@ variable "dns" {
     priority = optional(number)
   }))
 }
+
+variable "dns_srv" {
+  description = "DNS Record"
+  type = map(object({
+    name    = string
+    type    = string
+    proxied = optional(bool)
+    data = object({
+      service  = string
+      proto    = string
+      name     = string
+      priority = number
+      weight   = number
+      port     = number
+      target   = string
+    })
+  }))
+}

@@ -8,29 +8,6 @@ terraform {
   experiments = [module_variable_optional_attrs]
 }
 
-variable "cloudflare_token" {
-  type = string
-}
-
-variable "cloudflare_zones" {
-  type = map(object({
-    zone_id = string
-    firewall = map(object({
-      description = string
-      expression  = string
-      action      = string
-      priority    = number
-    }))
-    dns = map(object({
-      name     = string
-      value    = string
-      type     = string
-      proxied  = optional(bool)
-      priority = optional(number)
-    }))
-  }))
-}
-
 provider "cloudflare" {
   api_token = var.cloudflare_token
 }
@@ -112,6 +89,7 @@ module "cloudflare-dns" {
   for_each = var.cloudflare_zones
   zone_id  = each.value.zone_id
   dns      = each.value.dns
+  dns_srv  = each.value.dns_srv != null ? each.value.dns_srv : {}
 }
 
 # Firewall Settings
