@@ -1,0 +1,3 @@
+[submodule "cloudflare"]
+	path = cloudflare
+	url = https://github.com/ursinn/terraform-cloudflare.git
